@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Octopus Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="main">
+      <h1>Golden Octopus Simulator (GMS)</h1>
+      <div class="buttons">
+        <button id="feedBtn">Feed Once</button>
+        <button id="feed100Btn">Feed 100 Times</button>
+        <button id="resetBtn">Reset</button>
+      </div>
+      <h3><span id="level">Lv. 1</span></h3>
+      <p>Feed Count: <span id="feedCount">0</span> / 100</p>
+      <p>Required Kills: <span id="required">1000</span></p>
+      <div class="reward-container">
+        <b>Reward</b>
+        <p id="reward"></p>
+      </div>
+    </div>
+
+    <div class="log-container">
+      <h2>Feed Log</h2>
+      <ul id="log"></ul>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
