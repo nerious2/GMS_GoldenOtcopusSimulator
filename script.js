@@ -90,7 +90,7 @@ function doFeed() {
   }
 
   feedCount++;
-  logMessage(`#${feedCount}: ${result} → Lv ${level}`);
+  logMessage(`#${feedCount}: ${result} → ${(level >= 6) ? "<b>":""}Lv ${level}${(level >= 6) ? "</b>":""}`);
   updateUI();
 }
 
