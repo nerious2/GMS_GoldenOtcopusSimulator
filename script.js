@@ -6,9 +6,11 @@ const resetBtn    = document.getElementById('resetBtn');
 const feedCountEl = document.getElementById('feedCount');
 const rewardEl    = document.getElementById('reward');
 const logEl       = document.getElementById('log');
+const feedUntil6Btn = document.getElementById('feedUntil6Btn');
 
 let level     = 1;
 let feedCount = 0;
+let maxLevel = 0;
 
 // 레벨별 확률
 const rates = {
@@ -41,7 +43,7 @@ function requiredKills(count) {
 
 // UI 업데이트
 function updateUI() {
-  levelEl.innerHTML     = `${(level >= 9)?'<span style="color: #FF0004;">':""}Lv. ${level}${(level >= 9)?" 달성!!!</span> ":""}`;
+  levelEl.innerHTML     = `${(level >= 9)?'<span style="color: #FF0004;">':""}Lv. ${level}${(level >= 9)?" 달성!!!</span> ":""} ${(level < 9 && level != 1) ? ' (최대 레벨: ' + maxLevel + ')':''}`;
   feedCountEl.innerHTML = `${(level >= 9)?"<b>":""}${feedCount}${(level >= 9)?"</b>":""}`;
   reqEl.textContent       = requiredKills(feedCount);
 
@@ -49,6 +51,7 @@ function updateUI() {
   const doneMax = feedCount >= 100 || level >= 9;
   feedBtn.disabled    = doneMax;
   feed100Btn.disabled = doneMax;
+  feedUntil6Btn.disabled = doneMax;
 
   // 보상 표시
   const r = rewards[level];
@@ -91,6 +94,9 @@ function doFeed() {
 
   feedCount++;
   logMessage(`#${feedCount}: ${result} → ${(level >= 6) ? "<b>":""}Lv ${level}${(level >= 6) ? "</b>":""}`);
+  if (maxLevel < level) {
+  	maxLevel = level;
+  }
   updateUI();
 }
 
@@ -104,16 +110,29 @@ feed100Btn.addEventListener('click', () => {
 });
 
 resetBtn.addEventListener('click', () => {
+  maxLevel = 0;
   level     = 1;
   feedCount = 0;
   logEl.innerHTML = '';
   updateUI();
 });
 
+feedUntil6Btn.addEventListener('click', () => {
+  while (feedCount < 100 && level < 6) {
+    doFeed();
+  }
+});
+
+
 // 키보드 단축키
 document.addEventListener('keydown', e => {
-  if ((e.key === 'w' || e.key === 'W') && !feedBtn.disabled) {
+  if ((e.key === 'q' || e.key === 'Q') && !feedBtn.disabled) {
     doFeed();
+  }
+  else if ((e.key === 'w' || e.key === 'W') && !feedBtn.disabled) {
+	while (feedCount < 100 && level < 6) {
+    	doFeed();
+	}
   }
   else if ((e.key === 'e' || e.key === 'E') && !feedBtn.disabled) {
 	while (feedCount < 100 && level < 9) {
@@ -121,6 +140,7 @@ document.addEventListener('keydown', e => {
 	}
   }
   else if (e.key === 'r' || e.key === 'R') {
+  	maxLevel = 0;
 	level     = 1;
 	feedCount = 0;
 	logEl.innerHTML = '';
