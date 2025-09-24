@@ -9,8 +9,6 @@
   }
 }
 
-
-
 /* 1) body/html 패딩·마진 제거, 높이 100% 확보 */
 html, body {
   box-sizing: border-box;
